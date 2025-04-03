@@ -3,6 +3,8 @@ package com.myproject.desafio_picpay_backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,13 +22,15 @@ public class User {
 
     private String lastName;
 
+    @Column(unique = true)
     private String document;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
-    private Double balance;
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
