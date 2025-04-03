@@ -1,5 +1,6 @@
-package com.myproject.desafio_picpay_backend.model;
+package com.myproject.desafio_picpay_backend.models;
 
+import com.myproject.desafio_picpay_backend.dtos.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,5 +35,15 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    public User(UserDTO dto){
+        setFirstName(dto.firstName());
+        setLastName(dto.lastName());
+        setDocument(dto.document());
+        setEmail(dto.email());
+        setPassword(dto.password());
+        setBalance(dto.balance());
+        setUserType(dto.userType());
+    }
 
 }

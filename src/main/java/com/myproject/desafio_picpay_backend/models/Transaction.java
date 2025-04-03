@@ -1,4 +1,4 @@
-package com.myproject.desafio_picpay_backend.model;
+package com.myproject.desafio_picpay_backend.models;
 
 
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Getter
