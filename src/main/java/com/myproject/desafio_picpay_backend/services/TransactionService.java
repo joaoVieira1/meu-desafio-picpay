@@ -57,4 +57,7 @@ public class TransactionService {
         return this.transactionRepository.findAll();
     }
 
+    public boolean existsBySenderOrReceiver(User sender, User receiver){
+        return this.transactionRepository.existsBySenderOrReceiver(sender, receiver);
+    }
 }
