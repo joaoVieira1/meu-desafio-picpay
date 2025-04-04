@@ -1,8 +1,7 @@
 package com.myproject.desafio_picpay_backend.validators;
 
 import com.myproject.desafio_picpay_backend.models.User;
-import com.myproject.desafio_picpay_backend.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.myproject.desafio_picpay_backend.models.UserType;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ public class Validator {
     }
 
     public static void userType(User user) throws Exception {
-        if(user.getUserType().equals("MERCHANT")) {
+        if(user.getUserType() == UserType.MERCHANT) {
             throw new Exception("Tipo de usuário não permitido para transação");
         }
     }

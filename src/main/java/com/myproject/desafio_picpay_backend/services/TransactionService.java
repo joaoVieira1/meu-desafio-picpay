@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -20,8 +21,8 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     public Transaction doTransaction(TransactionDTO dto) throws Exception{
-        User sender = userService.findUser(dto.senderId());
-        User receiver = userService.findUser(dto.receiverId());
+        User sender = this.userService.findUser(dto.senderId());
+        User receiver = this.userService.findUser(dto.receiverId());
 
         Validator.balance(sender, dto.amount());
         Validator.userType(sender);
@@ -29,7 +30,7 @@ public class TransactionService {
         Transaction transaction = createTransaction(dto, sender, receiver);
         setBalances(dto, sender, receiver);
 
-        transactionRepository.save(transaction);
+        this.transactionRepository.save(transaction);
 
         return transaction;
     }
@@ -50,6 +51,10 @@ public class TransactionService {
         sender.setBalance(sender.getBalance().subtract(dto.amount()));
         receiver.setBalance(receiver.getBalance().add(dto.amount()));
 
+    }
+
+    public List<Transaction> getAllTransactions(){
+        return this.transactionRepository.findAll();
     }
 
 }
