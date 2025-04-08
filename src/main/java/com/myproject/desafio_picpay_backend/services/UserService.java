@@ -1,6 +1,9 @@
 package com.myproject.desafio_picpay_backend.services;
 
 import com.myproject.desafio_picpay_backend.dtos.UserDTO;
+import com.myproject.desafio_picpay_backend.errors.DatasExistsError;
+import com.myproject.desafio_picpay_backend.errors.DeleteUserError;
+import com.myproject.desafio_picpay_backend.errors.UserNotFoundError;
 import com.myproject.desafio_picpay_backend.models.User;
 import com.myproject.desafio_picpay_backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +29,27 @@ public class UserService {
     private TransactionService transactionService;
 
     public void saveUser(User user){
+
+        String email = user.getEmail();
+        String document = user.getDocument();
+
+        autenticationSave(email, document);
+
         this.userRepository.save(user);
+    }
+
+    public boolean autenticationSave(String email, String document){
+        boolean save = true;
+
+        if(!this.userRepository.existsByDocument(document)){
+            throw new DatasExistsError();
+        }
+
+        if(!this.userRepository.existsByEmail(email)){
+            throw new DatasExistsError();
+        }
+
+        return save;
     }
 
     public User createUser(UserDTO dto){
@@ -43,8 +66,9 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public User findUser(Long id) throws Exception{
-        return this.userRepository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+    public User findUser(Long id){
+        return this.userRepository.findUserById(id)
+                .orElseThrow(() -> new UserNotFoundError());
     }
 
     public void encodePassword(User user){
@@ -58,19 +82,19 @@ public class UserService {
     @Transactional
     public void deleteUserById(Long id){
         User user = this.userRepository.findUserById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                        .orElseThrow(() -> new UserNotFoundError());
 
         boolean hasTransactions = this.transactionService.existsBySenderOrReceiver(user, user);
 
         if(hasTransactions){
-            throw new IllegalStateException("Usuário não pode ser deletado pois já possui transações");
+            throw new DeleteUserError();
         }
 
         this.userRepository.delete(user);
     }
 
     @Transactional
-    public User updateFirstNameUser(Long id, String firstName) throws Exception {
+    public User updateFirstNameUser(Long id, String firstName){
         User updateUser = findUser(id);
 
         updateUser.setFirstName(firstName);
@@ -81,7 +105,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updateLastNameUser(Long id, String lastName) throws Exception{
+    public User updateLastNameUser(Long id, String lastName){
         User updateUser = findUser(id);
 
         updateUser.setLastName(lastName);
@@ -92,7 +116,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updatePasswordUser(Long id, String password) throws Exception{
+    public User updatePasswordUser(Long id, String password){
         User updateUser = findUser(id);
 
         updateUser.setPassword(password);
