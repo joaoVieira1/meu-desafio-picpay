@@ -35,6 +35,7 @@ Resumidamente, o sistema deverá realizar transações entre usuários, lidando 
 - Spring Data JPA
 - Spring Security
 - MySQL
+- Swagger
 
 
 

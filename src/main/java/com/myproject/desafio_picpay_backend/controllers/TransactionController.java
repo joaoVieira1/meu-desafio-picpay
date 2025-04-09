@@ -18,7 +18,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO dto) throws Exception {
+    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO dto){
         Transaction transaction = transactionService.doTransaction(dto);
 
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);

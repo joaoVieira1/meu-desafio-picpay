@@ -128,5 +128,15 @@ public class UserService {
         return updateUser;
     }
 
+    @Transactional
+    public User updateEmail(Long id, String email){
+        User updateUser = findUser(id);
+
+        updateUser.setEmail(email);
+
+        this.userRepository.save(updateUser);
+
+        return updateUser;
+    }
 
 }
