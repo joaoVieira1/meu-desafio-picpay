@@ -3,6 +3,11 @@
 O desafio proposto pela picpay consiste em criar uma API RESTFull que atuará como um protótipo simplificado da picpay.
 Resumidamente, o sistema deverá realizar transações entre usuários, lidando de maneira segura e íntegra com os dados.
 
+Veja você mesmo o desafio [desafio](https://github.com/PicPay/picpay-desafio-backend)
+Veja você mesmo a [documentação](http://localhost:8080/swagger-ui.html)
+
+Desenvolvido por [João Vieira](www.linkedin.com/in/joaovieiradev)
+
 ## 📦 Funcionalidades
 
 - CRUD de Usuários.
